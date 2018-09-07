@@ -1,0 +1,71 @@
+---
+title: "Yang Xu Stat366 Project"
+output: pdf_document
+---
+
+```{r load_lib, echo=T, message=FALSE}
+library(ggplot2)
+library(curatedCRCData)
+```
+
+1. dataset TCGA.RNASeqV2_eset
+
+```{r generate_data, echo=T, cache=TRUE, message=FALSE}
+data(TCGA.RNASeqV2_eset)
+
+df = data.frame(
+  age_at_initial_pathologic_diagnosis = 
+    TCGA.RNASeqV2_eset@ phenoData@ data$ age_at_initial_pathologic_diagnosis,
+  gender = TCGA.RNASeqV2_eset@ phenoData@ data$ gender,
+  days_to_death = TCGA.RNASeqV2_eset@ phenoData@ data$days_to_death,
+  chemotherapy = TCGA.RNASeqV2_eset@ phenoData@data$chemotherapy)
+
+```
+
+
+```{r ggplot, echo=T}
+p = ggplot(data = df, mapping = aes(x = age_at_initial_pathologic_diagnosis,
+                                    y = days_to_death, shape = gender, color = chemotherapy ) ) +
+  geom_point(size = 3) + xlab('Age at Initial Pathologic Diagnosis') + ylab('Days to Death') +  ggtitle('TCGA.RNASeqV2_eset')
+p
+```
+
+2. dataset GSE39582_eset
+
+```{r generate_data2, echo=T, cache=TRUE, message=FALSE}
+data(GSE39582_eset)
+
+df2 = data.frame(
+  T = GSE39582_eset@ phenoData@ data$T,
+  age_at_initial_pathologic_diagnosis = 
+    GSE39582_eset@ phenoData@ data$ age_at_initial_pathologic_diagnosis,
+  gender = GSE39582_eset@ phenoData@ data$ gender,
+  location = GSE39582_eset@ phenoData@ data$location)
+```
+
+```{r ggplot2, echo=T}
+p = ggplot(data = df2, mapping = aes(x = age_at_initial_pathologic_diagnosis,
+                                    y = T, shape = gender, color = location ) ) +
+  geom_point(size = 3) + xlab('Age at Initial Pathologic Diagnosis') + ylab('T') +  ggtitle('GSE39582_eset')
+p
+```
+
+
+3. dataset GSE2109_eset
+
+```{r generate_data3, echo=T, cache=TRUE, message=FALSE}
+data(GSE2109_eset)
+
+df3 = data.frame(
+  gender = GSE2109_eset@ phenoData@ data$ gender,
+  stageall = GSE2109_eset@ phenoData@ data$stageall,
+  T = GSE2109_eset@ phenoData@data$T,
+  family_history = GSE2109_eset@ phenoData@data$family_history)
+```
+
+```{r ggplot3, echo=T}
+p = ggplot(data = df3, mapping = aes(x = stageall,
+                                    y = T, shape = gender, color = family_history ) ) +
+  geom_point(size = 3) + xlab('Stages') + ylab('T') +  ggtitle('GSE2109_eset')
+p
+```
